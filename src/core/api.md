@@ -24,15 +24,13 @@ export function Async<T>(props: {
 // @public (undocumented)
 export function bubble<PAYLOAD>(eventType: string, payload?: PAYLOAD): void;
 
-// Warning: (ae-forgotten-export) The symbol "OnMountFn" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export function component$<PROPS>(onMount: OnMountFn<PROPS>): (props: PROPS) => JSXNode<PROPS>;
+// @public
+export function component$<PROPS>(onMount: (props: PROPS) => ReturnType<typeof onRender>): (props: PROPS) => JSXNode<PROPS>;
 
-// @public (undocumented)
+// @public
 export function component<PROPS extends {}>(tagName: string, onMount: QRL<(props: PROPS) => ReturnType<typeof onRender>>): (props: PROPS) => JSXNode<PROPS>;
 
-// @public (undocumented)
+// @public
 export function component<PROPS extends {}>(onMount: QRL<(props: PROPS) => ReturnType<typeof onRender>>): (props: PROPS) => JSXNode<PROPS>;
 
 // @public (undocumented)
@@ -136,49 +134,43 @@ export interface JSXNode<T extends string | null | JSXFactory | unknown = unknow
 // @public
 export function notifyRender(hostElement: Element): Promise<void>;
 
-// @public (undocumented)
+// @public
 export function on(event: string, eventFn: QRL<() => void>): QRL<() => void>;
 
-// @public (undocumented)
+// @public
 export const onDehydrate$: (first: () => void) => void;
 
-// @public (undocumented)
+// @public
 export function onDehydrate(dehydrateFn: QRL<() => void>): void;
 
-// @public (undocumented)
+// @public
 export function onDocument(event: string, eventFn: QRL<() => void>): QRL<() => void>;
 
-// @public (undocumented)
-export const onHalt$: (first: () => void) => void;
-
-// @public (undocumented)
-export function onHalt(haltFn: QRL<() => void>): void;
-
-// @public (undocumented)
+// @public
 export const onHydrate$: (first: () => void) => void;
 
-// @public (undocumented)
+// @public
 export function onHydrate(hydrateFn: QRL<() => void>): void;
 
-// @public (undocumented)
+// @public
 export const onRender$: (first: () => JSXNode) => QRL<() => JSXNode>;
 
-// @public (undocumented)
+// @public
 export function onRender(renderFn: QRL<() => JSXNode>): QRL<() => JSXNode>;
 
-// @public (undocumented)
+// @public
 export const onResume$: (first: () => void) => void;
 
-// @public (undocumented)
+// @public
 export function onResume(resumeFn: QRL<() => void>): void;
 
-// @public (undocumented)
+// @public
 export const onUnmount$: (first: () => void) => void;
 
-// @public (undocumented)
+// @public
 export function onUnmount(unmountFn: QRL<() => void>): void;
 
-// @public (undocumented)
+// @public
 export function onWindow(event: string, eventFn: QRL<() => void>): QRL<() => void>;
 
 // @public
@@ -205,7 +197,7 @@ export type PromiseValue<T> = {
 // @public (undocumented)
 export type Props<T extends {} = {}> = Record<string, any> & T;
 
-// @public (undocumented)
+// @public
 export type PropsOf<COMP extends (props: any) => JSXNode> = COMP extends (props: infer PROPS) => JSXNode<any> ? PROPS : never;
 
 // @public (undocumented)
@@ -315,16 +307,16 @@ export type ValueOrPromise<T> = T | Promise<T>;
 // @alpha (undocumented)
 export const version: string;
 
-// @public (undocumented)
+// @alpha (undocumented)
 export const withScopedStyles$: (first: string) => void;
 
-// @public (undocumented)
+// @alpha (undocumented)
 export function withScopedStyles(styles: QRL<string>): void;
 
-// @public (undocumented)
+// @alpha (undocumented)
 export const withStyles$: (first: string) => void;
 
-// @public (undocumented)
+// @alpha (undocumented)
 export function withStyles(styles: QRL<string>): void;
 
 // (No @packageDocumentation comment for this package)
