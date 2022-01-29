@@ -2,7 +2,7 @@
 
 Declare a Qwik component that can be used to create UI.
 
-Use `component` (and `component$`) to declare a Qwik component. Qwik component is a special kind of component that allows the Qwik framework to lazy load and executed the component independently of other Qwik components as well as lazy load the component's life-cycle hooks and event handlers.
+Use `component` (and `component$`) to declare a Qwik component. A Qwik component is a special kind of component that allows the Qwik framework to lazy load and execute the component independently of other Qwik components as well as lazy load the component's life-cycle hooks and event handlers.
 
 Side note: You can also declare regular (standard JSX) components that will have standard synchronous behavior.
 
@@ -13,15 +13,15 @@ Qwik component is a facade that describes how the component should be used witho
 
 ### Example:
 
-Example showing how to create a counter component.
+An example showing how to create a counter component:
 
 <docs code="./component.examples.tsx#component"/>
 
 - `component$` is how a component gets declared.
 - `{ value?: number; step?: number }` declares the public (props) interface of the component.
 - `{ count: number }` declares the private (state) interface of the component.
-- `onMount` closure: is used to create data store (see: `useStore`);
-- `onRender$`: is required hook for rendering the component.
+- `onMount` closure: is used to create the data store (see: `useStore`);
+- `onRender$`: is the required hook for rendering the component.
 - `$`: mark which parts of the component will be lazy-loaded. (see `$` for details.)
 
 The above can than be used like so:
@@ -73,7 +73,7 @@ The hook is eagerly invoked when the application resumes on the client. Because 
 
 # `styles`
 
-A lazy-loadable reference to a component styles.
+A lazy-loadable reference to a component's styles.
 
 Component styles allow Qwik to lazy load the style information for the component only when needed. (And avoid double loading it in case of SSR hydration.)
 
@@ -117,7 +117,7 @@ See: `on`, `onWindow`, `onDocument`.
 
 # `PropsOf`
 
-Infers `Props` from component.
+Infers `Props` from the component.
 
 <docs code="./component.examples.tsx#component-usage"/>
 
