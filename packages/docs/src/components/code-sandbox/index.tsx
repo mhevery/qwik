@@ -5,8 +5,8 @@ import { EditIcon } from '../svgs/edit-icon';
 
 export default component$<{
   src: string;
-  sandboxStyle: Record<string, string>;
-}>(({ src, sandboxStyle }) => {
+  style: Record<string, string>;
+}>(({ src, style }) => {
   useStylesScoped$(CSS);
   const state = useContext(GlobalStore);
 
@@ -47,7 +47,7 @@ export default component$<{
           <iframe
             loading="lazy"
             src={examplePath({ path: src, theme: state.theme, includeTheme: true })}
-            style={{ width: '100%', height: '200px', ...sandboxStyle }}
+            style={{ width: '100%', height: '200px', ...style }}
           />
         </div>
       </div>
@@ -73,7 +73,7 @@ function examplePath(
     .replace('/(qwik)/', '/')
     .replace('/(qwikcity)/', '/')
     .replace('/src/routes/demo', '/demo')
-    .replace('/index.tsx', '/');
+    .replace(/\/[\w\d]+.tsx?/, '/');
 
   if (!includeTheme) {
     return newPath;

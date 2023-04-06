@@ -4,36 +4,143 @@ contributors:
   - manucorporat
   - swwind
   - reemardelarosa
+  - mhevery
 ---
+import CodeSandbox from '../../../../components/code-sandbox/index.tsx';
 
 # Qwik React ⚛️
 
-QwikReact allows you to use React components in Qwik, including the whole ecosystem of component libraries, such as [Material UI](https://mui.com/), [Threejs](https://github.com/pmndrs/react-three-fiber) and [React Spring](https://react-spring.io/).
+Qwik React allows you to use [React](https://reactjs.org/) within [Qwik](https://qwik.dev/). The advantage of using Qwik React is that you can use existing React components and libraries within Qwik. This allows you to take advantage of the large ecosystem of React components and libraries such as [Material UI](https://mui.com/), [Threejs](https://github.com/pmndrs/react-three-fiber) and [React Spring](https://react-spring.io/). It is also a good way to get the benefits of Qwik without having to rewrite your React application.
 
-## Installation
+## Basic Usage
 
-Inside your Qwik app run:
+The basic usage of Qwik React is to take existing React components and wrap them in a `qwikify$` function. This function will create a Qwik component that can be used within Qwik and which will turn the React component into an island allowing you the freedom to fine-tune when the React component should hydrate.
 
-```shell
+Basic usage
+```tsx
+// This pragma is required so that React JSX is used instead of Qwik JSX
+/** @jsxImportSource react */
+import { qwikify$ } from '@builder.io/qwik-react';
+
+// An existing React component
+function Greetings() {
+  return <div>Hello from React</div>;
+}
+
+// Qwik component wrapping the React component
+export const QGreetings = qwikify$(Greetings);
+```
+
+## 0. Installation
+
+Before you can use Qwik React you need to configure the Qwik project to use Qwik React. The simplest way is to run the following command:
+
+> If you don't have a Qwik app yet, then you need to [create one first](/docs/(qwik)/getting-started/index.mdx), then, follow the instructions and run the command add React to your app.
+
+
+```bash
 npm run qwik add react
 ```
 
-If you don't have a Qwik app yet, then you need to [create one first](/docs/(qwik)/getting-started/index.mdx), then, follow the instructions and run the command add React to your app.
 
-```shell
-npm create qwik
-cd to-my-app
-npm run qwik add react
+The above command will perform the following:
+
+1. Install the required dependencies in `package.json`:
+   ```json
+   {
+    ...,
+     "dependencies": {
+      ...,
+       "@builder.io/qwik-react": "0.5.0",
+       "@types/react": "18.0.28",
+       "@types/react-dom": "18.0.11",
+       "react": "18.2.0",
+       "react-dom": "18.2.0",
+     }
+   }
+   ```
+   > **Note**: This is not an emulation of React. We are using the actual React library.
+2. configure Vite to use the `@builder.io/qwik-react` plugin:
+   ```ts
+   // vite.config.ts
+   import { qwikReact } from '@builder.io/qwik-react/vite';
+
+   export default defineConfig(() => {
+      return {
+        ...,
+        plugins: [
+          ..., 
+          // The important part
+          qwikReact()
+        ],
+      };
+   });
+   ```
+
+> **Note**: The `npm run qwik add react` will also configure a demo route showcasing the Qwik React integration. These are:
+> - `package.json` `dependencies`:
+>   - `@emotion/react 11.10.6`
+>   - `@emotion/styled 11.10.6`
+>   - `@mui/material 5.11.9`
+>   - `@mui/x-data-grid 5.17.24`
+> - `src/route`:
+>   - `/src/routes/react`: New public route showcasing react integration 
+>   - `/src/integrations/react`: Here's where the react component lives
+>
+> We will ignore these in this guide and instead take you through the process from the beginning.
+
+
+## 1. Hello World
+
+Let's start with a simple example. We will create a simple React component and then wrap it in a Qwik component. We will then use the Qwik component in a Qwik route.
+
+<CodeSandbox src="/src/routes/demo/react/hello-world/react.tsx" style={{ height: '6em' }}>
+```tsx /qwikify$/
+/** @jsxImportSource react */
+import { qwikify$ } from '@builder.io/qwik-react';
+
+function Greetings() {
+  return <div>Hello from React</div>;
+}
+
+export const QGreetings = qwikify$(Greetings);
 ```
-
-## Usage
+</CodeSandbox>
 
 The `@builder.io/qwik-react` package exports the `qwikify$()` function that lets you convert React components into Qwik components, that you can use across your application.
 
-> **Note:** You CAN NOT use React components in Qwik without converting them first, using `qwikify$()`. Even though [React and Qwik component look similar](/docs/(qwikcity)/guides/qwik-react/index.mdx), they are fundamentally very different.
+> **Note:** You CAN NOT use React components in Qwik without converting them first, using `qwikify$()`. Even though [React and Qwik components look similar](/docs/(qwikcity)/guides/qwik-react/index.mdx), they are fundamentally very different.
 
-React and Qwik components can not be mixed in the same file, if you check your project right after running the installation command, you will see a new folder `src/integrations/react/`, from now on, all your React components will live there.
+React and Qwik components can not be mixed in the same file, if you check your project right after running the installation command, you will see a new folder `src/integrations/react/`, we recommend that you place your React components there.
 
+## 2. Hydrating react islands
+
+The above example shows how to SSR static React content on the server. The benefit is that that component will never re-render in the browser and therefore its code never has to download. But what if the component needs to be interactive, and therefore we need to download its behavior in the browser? Let's start with building a simple counter component example in React.
+
+<CodeSandbox src="/src/routes/demo/react/counter-simple/react.tsx" style={{ height: '6em' }}>
+```tsx
+/** @jsxImportSource react */
+import { qwikify$ } from '@builder.io/qwik-react';
+
+function Greetings() {
+  return <div>Hello from React</div>;
+}
+
+export const QGreetings = qwikify$(Greetings);
+```
+</CodeSandbox>
+
+
+
+## 3. Inter-island communication
+
+## 4. Content projection (`children`)
+
+## 5. `host:` Listeners
+
+## 6. Using React libraries
+
+# ============
 ```tsx title="src/integrations/react/mui.tsx"
 /** @jsxImportSource react */
 
