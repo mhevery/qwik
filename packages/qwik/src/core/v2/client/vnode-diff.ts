@@ -461,7 +461,7 @@ export const vnode_diff = (container: ClientContainer, jsxNode: JSXOutput, vStar
   function expectElement(jsx: JSXNode<any>, tag: string) {
     const isSameTagName =
       vCurrent && vnode_isElementVNode(vCurrent) && tag === vnode_getElementName(vCurrent);
-    let jsxKey: any;
+    let jsxKey: any = null;
     if (
       isSameTagName &&
       (jsxKey = jsx.key) == vnode_getProp(vCurrent as ElementVNode, ELEMENT_KEY, null)
@@ -694,9 +694,9 @@ export const vnode_diff = (container: ClientContainer, jsxNode: JSXOutput, vStar
       let component$Host: VNode = host;
       // Find the closest component host which has `OnRender` prop.
       while (
-        component$Host &&
-        !vnode_isElementVNode(component$Host) &&
-        vnode_getProp(component$Host, OnRenderProp, null) === null
+        component$Host && vnode_isVirtualVNode(component$Host)
+          ? vnode_getProp(component$Host, OnRenderProp, null) === null
+          : true
       ) {
         component$Host = vnode_getParent(component$Host)!;
       }
